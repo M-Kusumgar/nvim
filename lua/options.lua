@@ -34,5 +34,26 @@ vim.keymap.set("n", "<Leader>kk", "<C-w>k")
 vim.keymap.set("n", "<Leader>ll", "<C-w>l")
 vim.keymap.set("n", "<Leader>vs", "<C-w>v")
 vim.keymap.set("n", "<Leader>sp", "<C-w>s")
+vim.keymap.set("n", "<C-Tab>", ":b#<CR>")
 vim.keymap.set("n", "<Leader>tt", ":term<CR>")
+vim.keymap.set("n", "<Leader>cm", ":colorscheme material<CR>")
+vim.keymap.set("n", "<Leader>cl", ":colorscheme catppuccin<CR>")
+vim.keymap.set("n", "<Leader>ce", ":lua vim.diagnostic.open_float()<CR>")
 vim.g.material_style = "deep ocean"
+
+vim.lsp.config('ts_ls', {
+  init_options = {
+    plugins = {
+      {
+        name = "@vue/typescript-plugin",
+        location = "/home/mkusumga/.nvm/versions/node/v20.9.0/lib/@vue/language-server",
+        languages = {"javascript", "typescript", "vue"},
+      },
+    },
+  },
+  filetypes = {
+    "javascript",
+    "typescript",
+    "vue",
+  },
+})

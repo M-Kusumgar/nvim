@@ -27,8 +27,18 @@ require("lazy").setup({
           background = true
         },
         lualine_style = "stealth",
+        custom_colors = function(colors)
+          colors.syntax.comments = "#646c8c"
+        end
       })
       vim.cmd.colorscheme("material")
+    end
+  },
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000,
+    config = function()
+      require("catppuccin").setup({
+        flavour = "latte"
+      })
     end
   },
   {
