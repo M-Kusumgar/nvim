@@ -172,6 +172,7 @@ require("lazy").setup({
               ["<esc>"] = actions.close,
             },
           },
+          file_ignore_patterns = { "node_modules" }
         },
       })
       telescope.load_extension("file_browser")
