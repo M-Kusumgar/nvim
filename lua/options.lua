@@ -39,6 +39,8 @@ vim.keymap.set("n", "<Leader>tt", ":term<CR>")
 vim.keymap.set("n", "<Leader>cm", ":colorscheme material<CR>")
 vim.keymap.set("n", "<Leader>cl", ":colorscheme catppuccin<CR>")
 vim.keymap.set("n", "<Leader>ce", ":lua vim.diagnostic.open_float()<CR>")
+vim.keymap.set("n", "<A-Up>", "dd<Up><Up>p==")
+vim.keymap.set("n", "<A-Down>", "ddp==")
 vim.g.material_style = "deep ocean"
 
 vim.lsp.config('ts_ls', {
