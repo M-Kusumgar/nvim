@@ -16,11 +16,14 @@ require("lazy").setup({
     "marko-cerovac/material.nvim",
     dependencies = { "nvim-lualine/lualine.nvim" },
     config = function()
-      require("lualine").setup {
+      require("lualine").setup({
         options = {
-          theme = "material-stealth"
-        }
-      }
+          theme = "material-stealth",
+          globalstatus = true,
+          component_separators = { left = '｜', right = '｜'},
+          section_separators = { left = '｜', right = '｜'},
+        },
+      })
       local material = require("material")
       material.setup({
         disable = {
@@ -29,7 +32,7 @@ require("lazy").setup({
         lualine_style = "stealth",
         custom_colors = function(colors)
           colors.syntax.comments = "#646c8c"
-        end
+        end,
       })
       vim.cmd.colorscheme("material")
     end
@@ -43,7 +46,7 @@ require("lazy").setup({
   },
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' }
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
   },
   {
     "nvim-treesitter/nvim-treesitter",
@@ -175,6 +178,7 @@ require("lazy").setup({
         },
       })
       telescope.load_extension("file_browser")
+      -- telescope.load_extension("scope")
       vim.keymap.set("n", "<Leader>fb", ":Telescope file_browser<CR>")
       vim.keymap.set("n", "<Leader>pi", ":Telescope file_browser path=%:p:h select_buffer=true<CR>")
     end
@@ -193,6 +197,87 @@ require("lazy").setup({
         block = "<Leader>bc",
       }
     }
-  }
+  },
+  {
+    "tiagovla/scope.nvim",
+    config = function()
+      require("scope").setup({})
+    end
+  },
+  {
+    'nanozuki/tabby.nvim',
+    config = function()
+      local theme = {
+        fill = 'TabLineFill',
+        -- Also you can do this: fill = { fg='#f2e9de', bg='#907aa9', style='italic' }
+        head = 'TabLine',
+        -- current_tab = 'TabLineSel',
+        current_tab = { style = "bold" },
+        tab = 'TabLine',
+        win = 'TabLine',
+        tail = 'TabLine',
+      }
+      require('tabby').setup({
+        line = function(line)
+          return {
+            {},
+            line.tabs().foreach(function(tab)
+              local hl = tab.is_current() and theme.current_tab or theme.tab
+              return {
+                line.sep(' ', hl, theme.fill),
+                tab.jump_key(),
+                tab.name(),
+                line.sep(' ', hl, theme.fill),
+                hl = hl,
+                margin = ' '
+              }
+            end),
+            line.spacer(),
+            line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
+              local hl = win.is_current() and theme.current_tab or theme.win
+              return {
+                line.sep(' ', hl, theme.fill),
+                win.buf_name(),
+                line.sep(' ', hl, theme.fill),
+                hl = hl,
+                margin = ' '
+              }
+            end),
+            hl = theme.fill,
+          }
+        end,
+        -- option = {}, -- setup modules' option,
+      })
+      -- configs...
+    end,
+  },
+  {
+    "natecraddock/sessions.nvim",
+    config = function()
+      require("sessions").setup({
+        events = { "VimLeavePre", "BufEnter" },
+        session_filepath = "/home/mkusumga/.nvim/session",
+        absolute = true
+      })
+    end
+  },
+  {
+    "brenton-leighton/multiple-cursors.nvim",
+    version = "*",  -- Use the latest tagged version
+    opts = {},  -- This causes the plugin setup function to be called
+    keys = {
+      {"<C-j>", "<Cmd>MultipleCursorsAddDown<CR>", mode = {"n", "x"}, desc = "Add cursor and move down"},
+      {"<C-k>", "<Cmd>MultipleCursorsAddUp<CR>", mode = {"n", "x"}, desc = "Add cursor and move up"},
+
+      {"<C-Up>", "<Cmd>MultipleCursorsAddUp<CR>", mode = {"n", "i", "x"}, desc = "Add cursor and move up"},
+      {"<C-Down>", "<Cmd>MultipleCursorsAddDown<CR>", mode = {"n", "i", "x"}, desc = "Add cursor and move down"},
+
+      {"<C-LeftMouse>", "<Cmd>MultipleCursorsMouseAddDelete<CR>", mode = {"n", "i"}, desc = "Add or remove cursor on mouse click"},
+
+      {"<C-m>", "<Cmd>MultipleCursorsAddVisualArea<CR>", mode = {"x"}, desc = "Add cursors to the lines of the visual area"},
+      {"<C-a>", "<Cmd>MultipleCursorsAddMatches<CR>", mode = {"n", "x"}, desc = "Add cursors to cword"},
+      {"<C-d>", "<Cmd>MultipleCursorsAddJumpNextMatch<CR>", mode = {"n", "x"}, desc = "Add cursor and jump to next cword"},
+    },
+  },
 })
 
